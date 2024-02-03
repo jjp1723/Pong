@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 35f336ab7030cc841b17bbbe271f0dab
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - normBall: {fileID: 3783666713828617551, guid: adcbc67e6c3779444a11fed55a6f09a1, type: 3}
+  - fastBall: {fileID: 3783666713828617551, guid: adcbc67e6c3779444a11fed55a6f09a1, type: 3}
+  - sneakBall: {fileID: 3783666713828617551, guid: adcbc67e6c3779444a11fed55a6f09a1, type: 3}
+  - smallBall: {fileID: 3783666713828617551, guid: adcbc67e6c3779444a11fed55a6f09a1, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
