@@ -355,7 +355,7 @@
 "Assets/Scripts/Ball.cs"
 "Assets/Scripts/Paddle.cs"
 "Assets/Scripts/PongManager.cs"
-"Assets/Scripts/ScoreManager.cs"
+"Assets/Scripts/SceneChange.cs"
 -langversion:9.0
 
 /deterministic

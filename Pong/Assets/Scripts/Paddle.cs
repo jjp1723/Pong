@@ -4,31 +4,28 @@ using UnityEngine;
 
 public class Paddle : MonoBehaviour
 {
-    protected Rigidbody paddleBody;
+    // ----- Fields -----
+
+    // speed field - Stores the speed of the paddle; used to move the paddle
     protected float speed = 15.0f;
 
+    // keyUpwards & keyDownwards fields - Used to set which keys are used to move the paddle
     public KeyCode keyUpwards;
     public KeyCode keyDownwards;
 
-    private void Awake()
-    {
-        paddleBody = GetComponent<Rigidbody>();
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+    // ----- Methods -----
+
+    // Update method - Detects key presses to move the paddle
     void Update()
     {
-        if (Input.GetKey(keyUpwards) && transform.position.z <= 8)
+        // If the key assigned to keyUpwards is pressed, the paddle moves upwards; however, the paddle is limited in how far it can move upwards
+        if (Input.GetKey(keyUpwards) && transform.position.z <= 9)
         {
-            if (transform.position.z + speed * Time.deltaTime >= 8)
+            if (transform.position.z + speed * Time.deltaTime >= 9)
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y, 8);
+                transform.position = new Vector3(transform.position.x, transform.position.y, 9);
             }
             else
             {
@@ -36,11 +33,12 @@ public class Paddle : MonoBehaviour
             }
         }
 
+        // If the key assigned to keyDownwards is pressed, the paddle moves downwards; however, the paddle is limited in how far it can move downwards
         if (Input.GetKey(keyDownwards))
         {
-            if (transform.position.z - speed * Time.deltaTime <= -8)
+            if (transform.position.z - speed * Time.deltaTime <= -9)
             {
-                transform.position = new Vector3(transform.position.x, transform.position.y, -8);
+                transform.position = new Vector3(transform.position.x, transform.position.y, -9);
             }
             else
             {
