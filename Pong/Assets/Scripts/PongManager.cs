@@ -12,6 +12,10 @@ public class PongManager : MonoBehaviour
     public GameObject fastBall;
     public GameObject sneakBall;
     public GameObject smallBall;
+    public GameObject cpuPaddle;
+    public GameObject player2Paddle;
+
+    protected Rigidbody ballBody;
 
     // balls field - A list of GameObjects which will be used to store the balls usable in the current round
     protected List<GameObject> balls = new List<GameObject>();
@@ -23,9 +27,10 @@ public class PongManager : MonoBehaviour
     // ballScript field - Used to call Ball methods
     protected Ball ballScript;
 
-    // crazy & timed fields - Used to determine if the current round will have non-normal balls enabled and whether the round is timed
-    public bool crazy;
+    // timed, crazy & cpu fields - Used to determine if the current round will be timed, have non-normal balls enabled, or have a cpu instead of player 2
     public bool timed;
+    public bool crazy;
+    public bool cpu;
 
     // limit field - Used to store the time limit or par score for the round
     public float limit;
@@ -50,11 +55,22 @@ public class PongManager : MonoBehaviour
 
     // ----- Methods -----
 
+    private void Awake()
+    {
+        limit = MenuManager.limit;
+        timed = MenuManager.timed;
+        crazy = MenuManager.crazy;
+        cpu = MenuManager.cpu;
+
+        cpuPaddle.SetActive(cpu);
+        player2Paddle.SetActive(!cpu);
+    }
+
     // Start method - Sets up the game scene
     void Start()
     {
         // Determining whether this round is timed; if it is, the timer UI is displayed, if not, the par UI is displayed
-        if(timed)
+        if (timed)
         {
             timer.gameObject.SetActive(true);
             limit *= 60;
@@ -118,7 +134,7 @@ public class PongManager : MonoBehaviour
             }
 
             // How the timer is displayed changes based on how many seconds are left to keep said display consistant
-            if(limit >= 10)
+            if(limit % 60 >= 10)
             {
                 timer.text = "Time: " + (Mathf.FloorToInt(limit / 60)).ToString() + ":" + ((int)(limit % 60)).ToString();
             }
@@ -126,6 +142,12 @@ public class PongManager : MonoBehaviour
             {
                 timer.text = "Time: " + (Mathf.FloorToInt(limit / 60)).ToString() + ":0" + ((int)(limit % 60)).ToString();
             }
+        }
+
+        // Calls CPU method is the cpu is enabled
+        if (cpu)
+        {
+            CPU();
         }
 
         // If the ESC key is pressed, the TogglePause method is called
@@ -141,6 +163,7 @@ public class PongManager : MonoBehaviour
         ball = balls[(int)Random.Range(1, balls.Count) - 1];
         ball.SetActive(true);
         ballScript = ball.GetComponent<Ball>();
+        ballBody = ballScript.ballBody;
         ballScript.Reset();
     }
 
@@ -210,5 +233,29 @@ public class PongManager : MonoBehaviour
     {
         ball.SetActive(false);
         SpawnBall();
+    }
+
+    public void CPU()
+    {
+        if (ballBody != null)
+        {
+            if (ballBody.transform.position.z > cpuPaddle.transform.position.z)
+            {
+                cpuPaddle.transform.position = new Vector3(15, 0, cpuPaddle.transform.position.z + 12.4f * Time.deltaTime);
+            }
+            else if (ballBody.transform.position.z < cpuPaddle.transform.position.z)
+            {
+                cpuPaddle.transform.position = new Vector3(15, 0, cpuPaddle.transform.position.z - 12.4f * Time.deltaTime);
+            }
+        }
+
+        if (cpuPaddle.transform.position.z > 9)
+        {
+            cpuPaddle.transform.position = new Vector3(15, 0, 9);
+        }
+        else if (cpuPaddle.transform.position.z < -9)
+        {
+            cpuPaddle.transform.position = new Vector3(15, 0, -9);
+        }
     }
 }

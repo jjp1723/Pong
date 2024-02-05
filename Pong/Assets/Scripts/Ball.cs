@@ -7,7 +7,7 @@ public class Ball : MonoBehaviour
     // ----- Fields -----
 
     // ballBody field - Used to reference the ball object
-    protected Rigidbody ballBody;
+    public Rigidbody ballBody;
 
     // pongManager field - Used to call PongManager methods
     public PongManager pongManager;

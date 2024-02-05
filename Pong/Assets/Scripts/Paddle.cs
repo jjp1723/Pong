@@ -7,7 +7,7 @@ public class Paddle : MonoBehaviour
     // ----- Fields -----
 
     // speed field - Stores the speed of the paddle; used to move the paddle
-    protected float speed = 15.0f;
+    protected float speed = 13.0f;
 
     // keyUpwards & keyDownwards fields - Used to set which keys are used to move the paddle
     public KeyCode keyUpwards;
