@@ -6,13 +6,15 @@ public class Ball : MonoBehaviour
 {
     // ----- Fields -----
 
-    // ballBody field - Used to reference the ball object
+    // ballBody & ballRenderer fields - Used to reference the ball object
     public Rigidbody ballBody;
+    public Renderer ballRenderer;
 
     // pongManager field - Used to call PongManager methods
     public PongManager pongManager;
 
-    // x & z fields - Used to set the velocity of the ball
+    // speed, x, & z fields - Used to set the velocity of the ball
+    public float speed = 15.0f;
     private float x;
     private float z;
 
@@ -21,9 +23,10 @@ public class Ball : MonoBehaviour
     // ----- Methods -----
 
     // Awake method - Gets a reference to the ball's RigidBody component and the PongManager's script
-    private void Awake()
+    protected void Awake()
     {
         ballBody = GetComponent<Rigidbody>();
+        ballRenderer = GetComponent<Renderer>();
         pongManager = GameObject.Find("PongManager").GetComponent<PongManager>();
     }
 
@@ -42,7 +45,7 @@ public class Ball : MonoBehaviour
         // Setting the ball's velocity to be at a random angle
         x = Random.value < 0.5f ? -1.0f : 1.0f;
         z = Random.value < 0.5f ? -1.0f : 1.0f;
-        ballBody.velocity = new Vector3(x, 0, z) * 15.0f;
+        ballBody.velocity = new Vector3(x, 0, z) * speed;
     }
 
     // Oncollision method - Handles collisions between the ball and the score zones
@@ -57,6 +60,12 @@ public class Ball : MonoBehaviour
         if (collision.gameObject.tag == "ScoreZone2")
         {
             pongManager.Player1Scored();
+        }
+
+        // If the ball is a fast ball, its speed increases each time it collides with a wall
+        if((collision.gameObject.tag == "WallTop" || collision.gameObject.tag == "WallBottom") && !(speed == 15 || speed == 16))
+        {
+            ballBody.velocity *= 1.2f;
         }
     }
 }

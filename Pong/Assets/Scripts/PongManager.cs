@@ -7,7 +7,7 @@ public class PongManager : MonoBehaviour
 {
     // ----- Fields -----
 
-    // normBall, fastBall, sneakBall, & smallBall fields - Used to reference the different ball objects
+    // normBall, fastBall, sneakBall, smallBall, cpuPaddle, & player2Paddle fields - Used to reference the different ball and paddle objects
     public GameObject normBall;
     public GameObject fastBall;
     public GameObject sneakBall;
@@ -19,6 +19,9 @@ public class PongManager : MonoBehaviour
 
     // balls field - A list of GameObjects which will be used to store the balls usable in the current round
     protected List<GameObject> balls = new List<GameObject>();
+
+    // ballIndex field - Used to keep track of what ball is in play
+    private int ballIndex;
 
     // temp & ball fields - Used to reference ball objects currently loaded in the game
     protected GameObject temp;
@@ -55,6 +58,7 @@ public class PongManager : MonoBehaviour
 
     // ----- Methods -----
 
+    // Awake method - Loads static field values into the scene and determines whether to activate the CPU
     private void Awake()
     {
         limit = MenuManager.limit;
@@ -103,8 +107,8 @@ public class PongManager : MonoBehaviour
             balls.Add(temp);
         }
 
-        // Calling the SpawnBall method
-        SpawnBall();
+        // Calling PreGamePause method
+        StartCoroutine(PreGamePause());
     }
 
     // Update method - Updates the timer UI (if enabled) and detects key presses
@@ -155,15 +159,50 @@ public class PongManager : MonoBehaviour
         {
             TogglePause();
         }
+
+        // If the flashing ball is in play, ever other second it turns either invisible or visible
+        if (ballIndex == 2)
+        {
+            if ((int)(limit % 2) == 0)
+            {
+                ballScript.ballRenderer.enabled = true;
+            }
+            else
+            {
+                ballScript.ballRenderer.enabled = false;
+            }
+        }
+    }
+
+    // PreGamePause method - Waits for half a second before calling the SpawnBall method; gives players more time to react to the first ball
+    IEnumerator PreGamePause()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        SpawnBall();
     }
 
     // SpawnBall method - Spawns a random ball from the balls list by setting it as active and calling its Reset method from ballScript
     public void SpawnBall()
     {
-        ball = balls[(int)Random.Range(1, balls.Count) - 1];
-        ball.SetActive(true);
+        ballIndex = (int)Random.Range(0, balls.Count);
+        ball = balls[ballIndex];
         ballScript = ball.GetComponent<Ball>();
         ballBody = ballScript.ballBody;
+
+        // If the fast ball was selected, its innitial speed is set to be slower than a normal ball
+        if(ballIndex == 1)
+        {
+            ballScript.speed = 5.0f;
+        }
+
+        // If the small ball was selected, its speed is set to be slightly faster than a normal ball
+        else if (ballIndex == 3)
+        {
+            ballScript.speed = 16.0f;
+        }
+
+        // The ball is made active and its Reset method is called
+        ball.SetActive(true);
         ballScript.Reset();
     }
 
@@ -235,8 +274,10 @@ public class PongManager : MonoBehaviour
         SpawnBall();
     }
 
+    // CPU method - Handles CPU behavior
     public void CPU()
     {
+        // If there is a ball, the CPU moves up/down to align with it
         if (ballBody != null)
         {
             if (ballBody.transform.position.z > cpuPaddle.transform.position.z)
@@ -249,6 +290,7 @@ public class PongManager : MonoBehaviour
             }
         }
 
+        // Prevents the CPU from moving out of bounds
         if (cpuPaddle.transform.position.z > 9)
         {
             cpuPaddle.transform.position = new Vector3(15, 0, 9);

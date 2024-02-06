@@ -1001,6 +1001,8 @@ MonoBehaviour:
   mode: {fileID: 0}
   timeLimiter: {fileID: 0}
   parLimiter: {fileID: 0}
+  crazyToggle: {fileID: 0}
+  cpuToggle: {fileID: 0}
   optionsMenu: {fileID: 0}
   optionsButton: {fileID: 0}
   startButton: {fileID: 0}
@@ -2004,14 +2006,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normBall: {fileID: 3783666713828617551, guid: adcbc67e6c3779444a11fed55a6f09a1, type: 3}
-  fastBall: {fileID: 3783666713828617551, guid: adcbc67e6c3779444a11fed55a6f09a1, type: 3}
-  sneakBall: {fileID: 3783666713828617551, guid: adcbc67e6c3779444a11fed55a6f09a1, type: 3}
-  smallBall: {fileID: 3783666713828617551, guid: adcbc67e6c3779444a11fed55a6f09a1, type: 3}
+  fastBall: {fileID: 8791911164595000706, guid: 39afb4e2941fc3642a51f2b0375f5e38, type: 3}
+  sneakBall: {fileID: 8822544699752545200, guid: 4bfdd4be0c74d064f871f2dd605517d4, type: 3}
+  smallBall: {fileID: 5424112521170395788, guid: 2c5ab6b3c65b89e4198ce86416d3a927, type: 3}
   cpuPaddle: {fileID: 4456811120489308308}
   player2Paddle: {fileID: 7446045801650963220}
   timed: 1
-  crazy: 0
-  cpu: 0
+  crazy: 1
+  cpu: 1
   limit: 1
   player1Score: {fileID: 557406413}
   player2Score: {fileID: 917474301}
@@ -2091,6 +2093,8 @@ MonoBehaviour:
   mode: {fileID: 0}
   timeLimiter: {fileID: 0}
   parLimiter: {fileID: 0}
+  crazyToggle: {fileID: 0}
+  cpuToggle: {fileID: 0}
   optionsMenu: {fileID: 0}
   optionsButton: {fileID: 0}
   startButton: {fileID: 0}

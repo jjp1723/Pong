@@ -10,16 +10,14 @@ public class MenuManager : MonoBehaviour
     // ----- Fields -----
 
     // limit, timed, crazy, & cpu fields - Static fields the user can change in the options menu which are used when loading the game
-    public static float limit = 5.0f;
+    public static float limit = 3.0f;
     public static bool timed = true;
     public static bool crazy = false;
     public static bool cpu = false;
 
-    // tempLimit, tempTimed, tempCrazy, and tempCPU fields - Hold temporary values from the options screen which are either assigned to their static counterparts if confirmed or discarded is canceled
+    // tempLimit & tempTimed fields - Hold temporary values from the options screen which are either assigned to their static counterparts if confirmed or discarded if canceled
     protected float tempLimit = limit;
     protected bool tempTimed = timed;
-    protected bool tempCrazy = crazy;
-    protected bool tempCPU = cpu;
 
     // newSceneID field - A public field used to determine the id of the scene to be loaded next
     public int newSceneID;
@@ -27,10 +25,11 @@ public class MenuManager : MonoBehaviour
     // options field - Used to toggle the options menu
     protected bool options = false;
 
-    //  - Used to alter the displayed UI
+    // mode, timeLimiter, parLimiter, crazyToggle, cpuToggle, optionsMenu, optionsButton, & startButton fields - Used to alter the displayed UI
     public TMP_Dropdown mode;
     public TMP_Dropdown timeLimiter;
     public TMP_Dropdown parLimiter;
+    public Toggle crazyToggle;
     public Toggle cpuToggle;
     public GameObject optionsMenu;
     public GameObject optionsButton;
@@ -59,8 +58,6 @@ public class MenuManager : MonoBehaviour
         // Assigning the temp fields the values of their static counterparts
         tempLimit = limit;
         tempTimed = timed;
-        tempCrazy = crazy;
-        tempCPU = cpu;
 
         // Assigning the currently used parameters to their repective UI element
         if (tempTimed)
@@ -73,7 +70,7 @@ public class MenuManager : MonoBehaviour
             mode.SetValueWithoutNotify(1);
             parLimiter.SetValueWithoutNotify((int)tempLimit - 1);
         }
-
+        crazyToggle.isOn = crazy;
         cpuToggle.isOn = cpu;
     }
 
@@ -97,18 +94,13 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public void ToggleCPU()
-    {
-        tempCPU = !tempCPU;
-    }
-
     // Confirm method - Updates static fields based on selected options and calls ToggleOptions
     public void Confirm()
     {
         limit = tempLimit;
         timed = tempTimed;
-        crazy = tempCrazy;
-        cpu = tempCPU;
+        crazy = crazyToggle.isOn;
+        cpu = cpuToggle.isOn;
 
         ToggleOptions();
     }
