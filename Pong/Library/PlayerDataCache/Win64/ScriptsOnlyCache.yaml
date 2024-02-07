@@ -100,6 +100,9 @@ ScriptsOnlyBuild:
   - assembly: Assembly-CSharp
     fullTypeName: MenuManager
     methodName: ChangeToScene
+  - assembly: Assembly-CSharp
+    fullTypeName: PongManager
+    methodName: TogglePause
   sceneClasses:
     Assets/Scenes/GameScene.unity:
     - Class: 1

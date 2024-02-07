@@ -180,6 +180,12 @@ public class PongManager : MonoBehaviour
                 ballScript.ballRenderer.enabled = false;
             }
         }
+
+        // If the R key is pressed, the ball is reset (for use when the ball starts moving horizontally)
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ballScript.Reset();
+        }
     }
 
     // PreGamePause method - Waits for half a second before calling the SpawnBall method; gives players more time to react to the first ball
