@@ -13,7 +13,7 @@ public class MenuManager : MonoBehaviour
     public static float limit = 3.0f;
     public static bool timed = true;
     public static bool crazy = false;
-    public static bool cpu = false;
+    public static bool cpu = true;
 
     // tempLimit & tempTimed fields - Hold temporary values from the options screen which are either assigned to their static counterparts if confirmed or discarded if canceled
     protected float tempLimit = limit;

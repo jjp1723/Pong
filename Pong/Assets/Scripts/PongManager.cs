@@ -15,6 +15,7 @@ public class PongManager : MonoBehaviour
     public GameObject cpuPaddle;
     public GameObject player2Paddle;
 
+    // ballBody field - Used to keep track of the ball's current location
     protected Rigidbody ballBody;
 
     // balls field - A list of GameObjects which will be used to store the balls usable in the current round
@@ -54,6 +55,12 @@ public class PongManager : MonoBehaviour
     protected float score1 = 0;
     protected float score2 = 0;
 
+    // soundList field - Used to store sound effects to be played
+    public List<AudioClip> soundList = new List<AudioClip>();
+
+    // gameEnded field - Used to prevent to keep track of the game's state
+    private bool gameEnded = false;
+
 
 
     // ----- Methods -----
@@ -66,6 +73,7 @@ public class PongManager : MonoBehaviour
         crazy = MenuManager.crazy;
         cpu = MenuManager.cpu;
 
+        gameEnded = false;
         cpuPaddle.SetActive(cpu);
         player2Paddle.SetActive(!cpu);
     }
@@ -231,6 +239,15 @@ public class PongManager : MonoBehaviour
         {
             winner.text = "Draw!";
         }
+
+        // Playing the game over sound effect
+        if (!gameEnded)
+        {
+            PlaySound(3);
+        }
+
+        // Updating gameEnded
+        gameEnded = true;
     }
 
     // Player1Scored method - Handles when player 1 scores
@@ -240,8 +257,11 @@ public class PongManager : MonoBehaviour
         score1++;
         player1Score.text = score1.ToString();
 
+        // Playing the score sound effect
+        PlaySound(2);
+
         // If player 1 has matched or exceeded par, the game ends
-        if(!timed && score1 >= limit)
+        if (!timed && score1 >= limit)
         {
             GameOver();
         }
@@ -256,6 +276,9 @@ public class PongManager : MonoBehaviour
         // score2 is incremented and the UI is updated
         score2++;
         player2Score.text = score2.ToString();
+
+        // Playing the score sound effect
+        PlaySound(2);
 
         // If player 2 has matched or exceeded par, the game ends
         if (!timed && score2 >= limit)
@@ -272,6 +295,12 @@ public class PongManager : MonoBehaviour
     {
         ball.SetActive(false);
         SpawnBall();
+    }
+
+    // PlaySound method - Plays a sound at a designated index in soundList
+    public void PlaySound(int index)
+    {
+        transform.GetComponent<AudioSource>().PlayOneShot(soundList[index]);
     }
 
     // CPU method - Handles CPU behavior

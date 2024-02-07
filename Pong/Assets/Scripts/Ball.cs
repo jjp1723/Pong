@@ -62,10 +62,22 @@ public class Ball : MonoBehaviour
             pongManager.Player1Scored();
         }
 
-        // If the ball is a fast ball, its speed increases each time it collides with a wall
-        if((collision.gameObject.tag == "WallTop" || collision.gameObject.tag == "WallBottom") && !(speed == 15 || speed == 16))
+        // If the ball hits a wall, it plays a sound effect
+        if(collision.gameObject.tag == "WallTop" || collision.gameObject.tag == "WallBottom")
         {
-            ballBody.velocity *= 1.2f;
+            pongManager.PlaySound(0);
+
+            // If the ball is a fast ball, its speed increases each time it collides with a wall
+            if (!(speed == 15 || speed == 16))
+            {
+                ballBody.velocity *= 1.2f;
+            }
+        }
+
+        // If the ball hits a paddle, it plays a dound effect
+        if (collision.gameObject.tag == "PlayerPaddle1" || collision.gameObject.tag == "PlayerPaddle2" || collision.gameObject.tag == "CPUPaddle")
+        {
+            pongManager.PlaySound(1);
         }
     }
 }
