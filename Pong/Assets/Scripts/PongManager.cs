@@ -61,6 +61,8 @@ public class PongManager : MonoBehaviour
     // gameEnded field - Used to prevent to keep track of the game's state
     private bool gameEnded = false;
 
+    private float ballTime = 0.0f;
+
 
 
     // ----- Methods -----
@@ -171,7 +173,8 @@ public class PongManager : MonoBehaviour
         // If the flashing ball is in play, ever other second it turns either invisible or visible
         if (ballIndex == 2)
         {
-            if ((int)(limit % 2) == 0)
+            ballTime += Time.deltaTime;
+            if ((int)(ballTime % 2) == 0)
             {
                 ballScript.ballRenderer.enabled = true;
             }
@@ -216,6 +219,7 @@ public class PongManager : MonoBehaviour
         }
 
         // The ball is made active and its Reset method is called
+        ballTime = 0;
         ball.SetActive(true);
         ballScript.Reset();
     }
